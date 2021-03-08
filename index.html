@@ -1,9 +1,42 @@
-<canvas id="c" style="width: 98vh"></canvas>
-<script>
+<!DOCTYPE html><html>
+  <style>
+    *{margin:0;padding:0}
+    body{background:#000}
+    #c{display:block;width:100vmin;margin:0 auto}
+  </style>
+<body><canvas id="c"></canvas><script>
   const W = c.width = 1000, H = c.height = 1000;
   const ctx = c.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
+  const ff = [
+    v => ({
+      x: v.x * 0.2 - 0.5, 
+      y: v.y * 0.4 - 0.6
+    }),
+    v => ({
+      x: v.x * 0.5 + 0.5, 
+      y: v.y * 0.3 - 0.5 + .2 * v.x * v.y
+    }),
+    v => ({
+      x: v.x * 0.3 + 0.5 + .2 * v.y, 
+      y: v.y * 0.5 + 0.5
+    }),
+    v => ({
+      x: v.x * 0.5 - 0.5, 
+      y: v.y * 0.5 + 0.5
+    })
+  ], NF = ff.length;
   
-  
-</script>
+  let p = {x: .2, y: .3};
+  let col = '#fff';
+  function draw() {
+    for (let i = 0; i < 999; i++) {
+      p = ff[Math.random() * NF|0](p);
+      ctx.fillStyle = col;
+      ctx.fillRect((0.5 * p.x + 0.5) * W, (0.5 * p.y + 0.5) * H, 1, 1);
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+</script></body></html>
