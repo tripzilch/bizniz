@@ -5,36 +5,42 @@
     #c{display:block;width:100vmin;margin:0 auto}
   </style>
 <body><canvas id="c"></canvas><script>
+  const c = document.getElementById('c');
   const W = c.width = 1000, H = c.height = 1000;
   const ctx = c.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
   const ff = [
     v => ({
-      x: v.x * 0.2 - 0.5, 
-      y: v.y * 0.4 - 0.6
+      x: v.x * 0.4 - 0.5 - v.y * (v.y - 0.4) * 0.3, 
+      y: v.y * 0.4 - 0.4
     }),
     v => ({
-      x: v.x * 0.5 + 0.5, 
-      y: v.y * 0.3 - 0.5 + .2 * v.x * v.y
+      x: v.x * 0.5 + 0.4 - 0.2 * v.y * (v.y - 0.5), 
+      y: v.y * 0.5 - 0.4 + 0.2 * v.x * v.y
     }),
     v => ({
-      x: v.x * 0.3 + 0.5 + .2 * v.y, 
-      y: v.y * 0.5 + 0.5
+      x: v.y * 0.45 + 0.4 + 0.2 * v.y, 
+      y: v.x * 0.5 + 0.4
     }),
     v => ({
-      x: v.x * 0.5 - 0.5, 
-      y: v.y * 0.5 + 0.5
+      x: v.y * -0.5 - 0.4, 
+      y: v.x * 0.5 + 0.4 + 0.2 * v.x * (v.x + 0.5)
     })
   ], NF = ff.length;
   
-  let p = {x: .2, y: .3};
-  let col = '#fff';
+  const pal = ['#61a', '#fc0', '#36e', '#478'];
+  let p = {x: 0.2, y: 0.3};
+  let col = pal[0], alpha = '4';
   function draw() {
     for (let i = 0; i < 999; i++) {
-      p = ff[Math.random() * NF|0](p);
-      ctx.fillStyle = col;
+      const n = Math.random() * NF|0;
+      p = ff[n](p);
+      if (Math.random() < 0.4) col = pal[n];      
+      ctx.fillStyle = col + alpha;
       ctx.fillRect((0.5 * p.x + 0.5) * W, (0.5 * p.y + 0.5) * H, 1, 1);
+      ctx.fillStyle = '#0004';
+      ctx.fillRect((0.49 * p.x + 0.51) * W, (0.49 * p.y + 0.51) * H, 1, 1);
     }
     requestAnimationFrame(draw);
   }
