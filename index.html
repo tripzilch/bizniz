@@ -6,7 +6,7 @@
   </style>
 <body><canvas id="c"></canvas><script>
   const c = document.getElementById('c');
-  const W = c.width = 1000, H = c.height = 1000;
+  const W = c.width = 5000, H = c.height = 5000;
   const ctx = c.getContext('2d');
   ctx.fillStyle = '#000';
   ctx.fillRect(0, 0, W, H);
@@ -39,8 +39,6 @@
       if (Math.random() < 0.4) col = pal[n];      
       ctx.fillStyle = col + alpha;
       ctx.fillRect((0.5 * p.x + 0.5) * W, (0.5 * p.y + 0.5) * H, 1, 1);
-      ctx.fillStyle = '#0004';
-      ctx.fillRect((0.49 * p.x + 0.51) * W, (0.49 * p.y + 0.51) * H, 1, 1);
     }
     requestAnimationFrame(draw);
   }
